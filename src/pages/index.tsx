@@ -4,6 +4,7 @@ import { signIn, signOut } from 'next-auth/react';
 import prisma from '@/utils/prisma';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
 	const session = useSession();
@@ -20,6 +21,7 @@ export default function Home() {
 			<main>
 				<div>
 					<h1>CAMPER SITE</h1>
+					<Link href='/inventory'>Invent</Link>
 				</div>
 				<div>
 					<button onClick={() => signIn()}>SIGN in</button>
