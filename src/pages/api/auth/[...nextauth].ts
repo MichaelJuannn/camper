@@ -20,7 +20,11 @@ export const authOptions: AuthOptions = {
 				password: { label: 'Password', type: 'password' },
 			},
 			async authorize(credentials) {
-				const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' };
+				const user = {
+					id: '1',
+					name: 'J Smith',
+					email: 'jsmith@example.com',
+				};
 				console.log(credentials);
 				if (credentials?.username == 'dragon') {
 					return user;

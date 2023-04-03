@@ -1,5 +1,7 @@
+import { GetServerSideProps } from 'next';
 import { useSession } from 'next-auth/react';
 import { signIn, signOut } from 'next-auth/react';
+import prisma from '@/utils/prisma';
 import Head from 'next/head';
 import Image from 'next/image';
 
@@ -17,6 +19,9 @@ export default function Home() {
 			</Head>
 			<main>
 				<div>
+					<h1>CAMPER SITE</h1>
+				</div>
+				<div>
 					<button onClick={() => signIn()}>SIGN in</button>
 					<button onClick={() => signOut()}>SIGN OUT</button>
 					<div>{session.data?.user?.name}</div>
@@ -25,3 +30,11 @@ export default function Home() {
 		</>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	const user = await prisma.user.findFirst({
+		include: { orders: { include: { items: true } } },
+	});
+	const data = 'hello';
+	return { props: { name: data } };
+};
