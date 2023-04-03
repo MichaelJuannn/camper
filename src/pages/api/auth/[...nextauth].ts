@@ -7,7 +7,7 @@ import prisma from '@/utils/prisma';
 export const authOptions: AuthOptions = {
 	// Configure one or more authentication providers
 	adapter: PrismaAdapter(prisma),
-	session: { strategy: 'jwt' },
+	session: { strategy: 'jwt', maxAge: 60 * 60 * 24 },
 	providers: [
 		DiscordProvider({
 			clientId: process.env.DISCORD_CLIENT_ID!, // its a string check env
@@ -34,7 +34,16 @@ export const authOptions: AuthOptions = {
 			},
 		}),
 	],
-	callbacks: {},
+	callbacks: {
+		async jwt({ token, account, user }) {
+			if (account) token.id = user?.id;
+			return token;
+		},
+		async session({ session, token, user }) {
+			if (session.user) (session.user as Record<string, any>)['id'] = token.id;
+			return session;
+		},
+	},
 };
 
 export default NextAuth(authOptions);

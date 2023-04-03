@@ -16,6 +16,12 @@ export default function Id({ item }: ItemProps) {
 		<>
 			<div>{item.id}</div>
 			<div>{item.name}</div>
+
+			<form action='/api/order/createorder' method='post'>
+				<input type='date' name='order_deadline' id='' />
+				<input type='text' name='id' value={item.id} readOnly hidden />
+				<button type='submit'>Order</button>
+			</form>
 		</>
 	);
 }
