@@ -16,7 +16,6 @@ export default function Id({ item }: ItemProps) {
 		<>
 			<div>{item.id}</div>
 			<div>{item.name}</div>
-			{item.orderId ? 'Ordered' : 'Available'}
 		</>
 	);
 }
@@ -24,11 +23,11 @@ export default function Id({ item }: ItemProps) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { id } = ctx.query;
 	if (typeof id !== 'string') return { props: { error: 'need a string' } };
-	console.log(id);
 	const item = await prisma.inventory.findFirst({
 		where: {
 			id: id,
 		},
+		include: { orders: true },
 	});
 	console.log(item);
 	return {

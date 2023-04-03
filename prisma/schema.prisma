@@ -13,8 +13,7 @@ datasource db {
 model Inventory{
   id String @id @default(cuid())
   name String
-  order Order? @relation(fields: [orderId], references: [id])
-  orderId String?
+  orders Order[]
 }
 
 model Order {
@@ -23,7 +22,8 @@ model Order {
   order_deadline DateTime?
   client User @relation(fields: [clientId], references: [id])
   clientId String 
-  items Inventory[]
+  item Inventory @relation(fields: [itemId], references: [id])
+  itemId String
 }
 model User {
   id            String    @id @default(cuid())

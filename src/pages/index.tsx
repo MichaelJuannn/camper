@@ -34,9 +34,7 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-	const user = await prisma.user.findFirst({
-		include: { orders: { include: { items: true } } },
-	});
+	const user = await prisma.user.findFirst();
 	const data = 'hello';
 	return { props: { name: data } };
 };
